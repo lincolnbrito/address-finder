@@ -1,0 +1,95 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+a {
+    @apply text-blue-600 underline
+}
+
+body {
+    @apply bg-gray-300
+}
+
+.label {
+    @apply block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2
+}
+.label.inline {
+    @apply inline-flex items-center px-2
+}
+
+.form-control {
+    @apply appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight
+}
+
+.form-control:focus {
+    @apply outline-none bg-white border-gray-500
+}
+
+.badge {
+    @apply rounded-full text-xs py-1 px-2 whitespace-no-wrap
+}
+.badge.badge-default{
+    @apply bg-gray-500 text-white
+}
+.badge.badge-success{
+    @apply bg-green-500 text-white
+}
+.svg-icon {
+    width: 1em;
+    height: 1em;
+    display: inline;
+}
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
+    fill: #FFFFFF;
+}
+.svg-icon circle {
+    stroke: #FFFFFF;
+    stroke-width: 2;
+}
+
+.btn {
+    @apply font-bold py-2 px-4 rounded mr-2 transition ease-in duration-200;
+}
+.btn[disabled] {
+    @apply opacity-50 cursor-not-allowed
+}
+.btn-default {
+    @apply bg-gray-300 text-gray-600 no-underline;
+}
+.btn-default:not([disabled]):hover,
+.btn-default:hover {
+    @apply bg-gray-400;
+}
+.btn-primary {
+    @apply bg-blue-500 text-white no-underline;
+}
+.btn-primary:not([disabled]):hover{
+    @apply bg-blue-700;
+}
+
+.modal {
+    @apply fixed inset-0 w-full h-screen flex items-center justify-center bg-semi-75
+}
+
+.modal .close {
+    @apply float-right text-xl text-gray-500 my-2 mx-4 outline-none
+}
+
+.modal .modal-title{
+    @apply px-3 uppercase py-2 border-b font-bold text-gray-600
+}
+
+.modal .modal-body{
+    @apply px-3 mt-2 mb-3
+}
+.modal .modal-footer{
+    @apply px-3 py-2 mt-2 border-t flex flex-row content-end
+}
+
+.alert {
+    @apply w-full bg-gray-200 p-10 text-2xl text-gray-600
+}
