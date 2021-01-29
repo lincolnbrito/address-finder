@@ -2,63 +2,117 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddressRequest;
 use App\Models\Address;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Http\JsonResponse;
 
 class AddressController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
-        //
+        $addresses = Address::paginate();
+        return response()->json($addresses);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param AddressRequest $request
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(AddressRequest $request)
     {
-        //
+        try {
+            $address = Address::create($request->all());
+
+            return response()->json([
+                'message' => 'The address has been updated',
+                'data' => $address
+            ]);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'The address can not be updated',
+                'details' => $e->getMessage()
+            ], 400);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Address  $address
-     * @return \Illuminate\Http\Response
+     * @param string $zipcode
+     * @return JsonResponse
      */
-    public function show(Address $address)
+    public function show(string $zipcode)
     {
-        //
+        try{
+            $address = Address::where('zipcode', $zipcode)->firstOrFail();
+
+            return response()->json([
+                'data' => $address
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => "The address can not be found for zipcode {$zipcode}",
+                'details' => $e->getMessage()
+            ], 404);
+        }
+
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Address  $address
-     * @return \Illuminate\Http\Response
+     * @param AddressRequest $request
+     * @param string $zipcode
+     * @return JsonResponse
      */
-    public function update(Request $request, Address $address)
+    public function update(AddressRequest $request, string $zipcode): JsonResponse
     {
-        //
+        try {
+            $address = Address::where('zipcode', $zipcode)->firstOrFail();
+            $address->update($request->all());
+
+            return response()->json([
+                'message' => 'The address has been updated',
+                'data' => $address
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'The address can not be updated',
+                'details' => $e->getMessage()
+            ], 400);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Address  $address
-     * @return \Illuminate\Http\Response
+     * @param string $zipcode
+     * @return JsonResponse
      */
-    public function destroy(Address $address)
+    public function destroy(string $zipcode): JsonResponse
     {
-        //
+        try {
+            $address = Address::where('zipcode', $zipcode)->firstOrFail();
+            $address->delete();
+
+            return response()->json([
+                'message' => 'The address has been deleted'
+            ], 201);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'The address can not be deleted',
+                'details' => $e->getMessage()
+            ], 400);
+        }
     }
 }
