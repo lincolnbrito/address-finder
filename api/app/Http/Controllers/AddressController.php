@@ -4,11 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AddressRequest;
 use App\Models\Address;
+use App\Services\CepService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 
 class AddressController extends Controller
 {
+
+    protected $service;
+
+    public function __construct(CepService $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -53,7 +62,7 @@ class AddressController extends Controller
     public function show(string $zipcode)
     {
         try{
-            $address = Address::where('zipcode', $zipcode)->firstOrFail();
+            $address = $this->service->findOrImport($zipcode);
 
             return response()->json([
                 'data' => $address
