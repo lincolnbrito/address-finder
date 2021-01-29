@@ -1,0 +1,45 @@
+version: '2'
+
+services:
+  api:
+    image: ambientum/php:7.4-nginx
+    container_name: api
+    volumes:
+      - ./api:/var/www/app
+    ports:
+      - "80:8080"
+    environment:
+      - PHP_MEMORY_LIMIT=-1
+      - PHP_INI_MAX_EXECUTION_TIME=-1
+    depends_on:
+      - mysql
+    links:
+      - mysql
+
+  app:
+    image: ambientum/node:12
+    container_name: app
+    command: yarn serve
+    volumes:
+      - ./app:/var/www/app
+    ports:
+      - "8080:8080"
+      - "3000:3000"
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=secret
+      - MYSQL_DATABASE=laravel-db
+  
+volumes:
+  mysql-data:
+    driver: local
