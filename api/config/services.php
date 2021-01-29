@@ -30,4 +30,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'cep' => [
+        'endpoint' => env('CEP_ENDPOINT', 'https://brasilapi.com.br/api/cep/'),
+        'version' => env('CEP_ENDPOINT_VERSION', 'v1')
+    ]
 ];
