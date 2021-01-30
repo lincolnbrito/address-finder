@@ -59,17 +59,17 @@ class AddressController extends Controller
      * @param string $zipcode
      * @return JsonResponse
      */
-    public function show(string $zipcode)
+    public function show(int $id)
     {
         try{
-            $address = $this->service->findOrImport($zipcode);
+            $address = Address::find($id);
 
             return response()->json([
                 'data' => $address
             ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => "The address can not be found for zipcode {$zipcode}",
+                'message' => "The address can not be found",
                 'details' => $e->getMessage()
             ], 404);
         }
@@ -80,13 +80,13 @@ class AddressController extends Controller
      * Update the specified resource in storage.
      *
      * @param AddressRequest $request
-     * @param string $zipcode
+     * @param int $id
      * @return JsonResponse
      */
-    public function update(AddressRequest $request, string $zipcode): JsonResponse
+    public function update(AddressRequest $request, int $id): JsonResponse
     {
         try {
-            $address = Address::where('zipcode', $zipcode)->firstOrFail();
+            $address = Address::find($id);
             $address->update($request->all());
 
             return response()->json([
@@ -104,13 +104,13 @@ class AddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param string $zipcode
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy(string $zipcode): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
         try {
-            $address = Address::where('zipcode', $zipcode)->firstOrFail();
+            $address = Address::find($id);
             $address->delete();
 
             return response()->json([

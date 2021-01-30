@@ -12,6 +12,10 @@ body {
     @apply bg-gray-300
 }
 
+.result {
+    @apply py-4 w-full col-span-1 p-6 bg-white rounded-lg shadow mt-8
+}
+
 .result-item {
     @apply w-full col-span-1 p-2 bg-gray-200 rounded-lg mb-2 flex
 }

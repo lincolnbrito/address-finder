@@ -16,4 +16,17 @@ class Address extends Model
         'state',
         'city',
     ];
+
+    public static function search(string $text) {
+        //$columns = ["street"];
+
+        if (empty(trim($text))) {
+            return static::get();
+        } else {
+            $search = implode("%", str_split($text));
+            $search = "%$search%";
+
+            return static::where("street", "like", $search)->get();
+        }
+    }
 }

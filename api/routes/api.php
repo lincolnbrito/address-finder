@@ -18,4 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('zipcode', \App\Http\Controllers\AddressController::class);
+Route::get('zipcode/{zipcode}', [\App\Http\Controllers\SearchController::class, 'zipcode']);
+Route::get('street', [\App\Http\Controllers\SearchController::class, 'street']);
+Route::apiResource('addresses', \App\Http\Controllers\AddressController::class);
